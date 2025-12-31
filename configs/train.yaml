@@ -1,0 +1,75 @@
+# 全局随机种子
+seed: 42
+
+data:
+  # CIFAR-10 数据根目录；若不存在将由 torchvision 自动下载
+  root: dataset
+  # DataLoader 线程数
+  num_workers: 16
+
+train:
+  # 设备选择：auto/cuda/cpu
+  device: auto
+  # 训练轮数
+  epochs: 100
+  # 批大小
+  batch_size: 64
+  # Adam 学习率
+  learning_rate: 0.0003
+  # L2 权重衰减
+  weight_decay: 0.0001
+  # Adam betas
+  betas: [0.9, 0.999]
+  # 梯度裁剪上限；null 表示不裁剪
+  grad_clip: null
+
+scheduler:
+  # 学习率调度器类型：cosine / none 等
+  type: cosine
+  # CosineAnnealingLR 的 T_max
+  t_max: 30
+  # 最小学习率
+  eta_min: 1.0e-5
+
+model:
+  # 选择模型：vqvae 或 vqvae2（默认 vqvae2）
+  type: vqvae2
+  # 公用隐藏通道（部分模块使用）
+  hidden_channels: 256
+  # 底/顶层隐藏通道
+  bottom_hidden_channels: 320
+  top_hidden_channels: 320
+  # 底/顶层嵌入维度
+  bottom_embedding_dim: 96
+  top_embedding_dim: 96
+  # 底/顶层码本大小
+  num_embeddings_bottom: 1024
+  num_embeddings_top: 1024
+  # 单层 VQ-VAE 备用参数（与上面互斥，仅 type=vqvae 时用）
+  embedding_dim: 64
+  num_embeddings: 512
+  # VQ commitment 系数
+  commitment_cost: 0.25
+  # 残差块层数
+  res_layers: 4
+  # 是否启用注意力及头数
+  use_attention: true
+  attn_heads: 4
+
+log:
+  # 训练产出目录
+  output_dir: runs
+  # 间隔多少 epoch 保存 sample
+  sample_every: 1
+  # 每次保存的样本数量
+  num_samples: 5
+
+loss:
+  # 重建损失类型：l1 或 l2
+  recon_type: l1
+  perceptual:
+    # 感知损失开关与权重
+    enable: true
+    weight: 0.1
+    # VGG 感知层
+    layer: relu3_3

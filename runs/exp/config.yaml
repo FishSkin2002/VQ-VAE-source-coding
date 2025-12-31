@@ -1,0 +1,47 @@
+data:
+  num_workers: 24
+  persistent_workers: true
+  pin_memory: true
+  prefetch_factor: 4
+  root: dataset
+log:
+  num_samples: 5
+  output_dir: runs
+  sample_every: 1
+loss:
+  perceptual:
+    enable: true
+    layer: relu3_3
+    weight: 0.1
+  recon_type: l1
+model:
+  attn_heads: 4
+  bottom_embedding_dim: 96
+  bottom_hidden_channels: 320
+  commitment_cost: 0.25
+  embedding_dim: 64
+  hidden_channels: 256
+  num_embeddings: 512
+  num_embeddings_bottom: 1024
+  num_embeddings_top: 1024
+  res_layers: 4
+  top_embedding_dim: 96
+  top_hidden_channels: 320
+  type: vqvae2
+  use_attention: true
+scheduler:
+  eta_min: 1.0e-05
+  t_max: 30
+  type: cosine
+seed: 42
+train:
+  amp: true
+  batch_size: 96
+  betas:
+  - 0.9
+  - 0.999
+  channels_last: true
+  epochs: 100
+  grad_clip: null
+  learning_rate: 0.0003
+  weight_decay: 0.0001
